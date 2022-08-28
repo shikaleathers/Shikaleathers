@@ -17,7 +17,7 @@
 | Syslog        | UDP/514                                |
 | RDP           | TCP/3389                               |
 | NTP           | UDP/123                                |
-| SIP           | TCP/4060 --- TCP/5061                  |
+| SIP           | TCP/5060 --- TCP/5061                  |
 | SMB           | TCP/455                                |
 | LDAP          | TCP/389                                |
 | LDAPS         | TCP/636                                |
