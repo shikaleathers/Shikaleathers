@@ -4,13 +4,13 @@ Today we are going to take a stab at making our own DCHP in Virtual box.
 
 I've set up 2 virtual machines (VM) containg two different OS. One is Windows 10 and the other is Kali Linux.
 
-![ced53b04c815f3b881af3afab4cdbf67.png](:/0ca32401bd4a4482b00ca2c303f8daf7)
+![](images/virtual.PNG)
 
 The goal here is to have them connect and talk to each other on a network that is not connected to the the internet. 
 
 At this point of time, although the VMs are situated on my NAT configuration with my personal computer. As you can see, if I ping from each machine you can see that they can communicate together already. 
 
-![a7c6ebe8a05945972ebbcfd7c1fb9f13.png](:/0eb7229bbc054d6783177c71eaf08802)
+![](images/qweqwe.PNG)
 
 Although this is great, I also want this entire network to be secured and isolated from other VM's so that I can play around test things on a seperated environment. So a solution to this is to create an internal network that has  **DHCP serve**r to automatically assign a unique IP to each VM.
 
@@ -18,61 +18,69 @@ Although this is great, I also want this entire network to be secured and isolat
 
 I first start off with going into the settings of each virtual machine and changing the settings from `NAT`  to `Internal Network` and configuring a name that I think is appropriate in this case it will be "DHCP" - not the most imaginative but it helps. 
 
-![Changing Netowrk settings.PNG](:/a0387030a1d0409392d497bb1ed22223)
+![](images/addadaadadadda.PNG)
 
 Now since both VM machines are now configured the same, we can see if each machine has access to the web or if they ping each other. 
 
-![5ce332947fc43d998f7be7d1312f240e.png](:/21d3e8f94c80443284a34c4786fba8dc)
-![4dafb3d299391c4be4f9bf417e4b8df2.png](:/0c3a626d3935478a94205832435caf59)
+![](images/Kaliauto.PNG)
+![](images/windows%20auto%20config.PNG)
 
 
-Since there is no DHCP server to assign IP addresses the Win 10 VM had to autoconfigure its own IPv4 address of `169.254.123.218` while for the Kali VM we can see that instead of an autoconfiguration the system just uses local host address `127.0.0.1`  instead. If we try the `ping`  command to each other as we did earlier; we get dropped packets because the two VMs are now unable to connect and communicate to each other.
+Since there is no DHCP server to assign IP addresses the Win 10 VM had to autoconfigure its own IPv4 address of `169.254.123.218` while for the Kali VM we can see that instead of an autoconfiguration, the system just uses the local host address `127.0.0.1`. If we try the `ping`  command to each other as we did earlier; we get dropped packets because the two VMs are now unable to connect and communicate to each other.
 
 ## Creating the DHCP Server in Virtual Box
-So now its the time to create a DHCP server and configure it so that it can distribute IP addresses to our machines.
-
-The process is quite simple and sadly it takes much more time writing this up than it does to do the whole process. 
+So now its the time to create a DHCP server and configure it so that it distributes IP addresses to our machines.
 
 The first step is to locate the directory the VirtualBox is located on on my host computer and copy its path.
 In my case its found here `C:\Program Files\Oracle\VirtualBox`
 
 Opening up command prompt I need to navigate to the directory using the `cd` command using that path. Once that is done I can use `dir` to list all the availiable directories that are in this path. 
 
-![cddir.PNG](:/c563d3c37b5c4709ab2ed1275aaf903b)
+![](images/asdafafafasdgdfghfgjhfghj.PNG)
 
 What we need to do is to locate `VboxManage.exe` and do some wizardry to finally configure our DHCP server. 
 
-First command I want to do is to list all the curent DHCP servers that are existing so far using 
+First command I want to do is to list all the curent DHCP servers that exists using 
 `VboxManage.exe list dhcpservers`
 
-![list.PNG](:/2d61e01e56ac42b5aef58d2d10863821)
+![](images/list.PNG)
 
-Here was can see there is one already but none the matches out settings that we made for the VM's as seen earlier. 
+Here we can see there is one already but it doesn't match our network id that we made for the VM's as seen earlier in VirtualBox. 
 
-We now need to figure out what the commands are needed to set everything up. To do this we can simply call VboxManage.exe in the command prompt and scroll down to a section called `DHCP sever management` 
+We now need to figure out what the commands are needed to set everything up. To do this we can simply call VboxManage.exe in the command prompt and scroll down to a section called `DHCP server management` 
 
-![management.PNG](:/0d002a80f54a463eb81493bbf90e64c5)
+![](images/management.PNG)
 
-Here are all the relevant commands. We can use this info to configure the whole DHCP server very easily, just a simple subnet and we will have our server ip, subnet mask, first host ip and last host ip. 
+Here are all the relevant commands. We can use this info to configure the whole DHCP server very easily, just a simple subnet and we will have our server IP, subnet mask, first host ip and last host ip. 
 
 Everything can be simplied in this command :
 `VBoxManage dhcpserver add --network=DHCP --server-ip=192.168.3.1 --netmask=255.255.255.0 --lower-ip=192.168.3.2 --upper-ip=192.168.3.254 --enable`
-It's important to note that my network name NEEDS to be the same as the one I configured earlier for the VMs otherwise it wont work properly.
+
+It's important to note that my network name need to be the same as the one I configured earlier for the VMs otherwise it wont work properly.
 
 and **boom** we have  DHCP server configured assuming we didnt make any typos or configurational errors!
 
 Lets revisit the command `VboxManage.exe list dhcpservers`  to see if  our new server is listed in `VboxManage.exe`
 
-![32fc442954ca48f060b9a9a6f48c6041.png](:/8bee7690a39e49aa8d6db43f3e1db338)
+
+![](images/lsitedserver.PNG)
 
 and indeed it is!
 
 
 
-OK now all we need to do is CHECK if our VM's can talk to each other and that their IP address' lay between our specified address. The easier way to do this is send a ping command to between the two. 
+OK now all we need to do is check if our VM's can talk to each other and that their IP address' lay between our specified address. The easiest way to do this is send a ping command to between the two. 
 
-![9b6fbc714d16c5fa421cd29e69baaaa5.png](:/3129d6879f6e4f7f9f092fb16bb15314)
+![](images/TEstwork.PNG)
 
 And EVERYTHING WORKS! The Windows machine was assigned the IP `192.168.3.3`  while the Kali VM was assigned  `192.168.3.2` which is PERFECT. When I go to ping between the two machines the Windows VM was able to ping Kali no problems. But when I pinged Kali to Windows VM's there were slight hiccups. This was due to the fact that Windows has a firewall that blocks inbound ICMP packets. Simply adjusting the firewall inbound rules allowed Kali to ping perfectly to the Windows VM.
 
 And there you have it! This is how I configured a DHCP server in Virtual Box.
+
+
+
+
+
+
+
+
