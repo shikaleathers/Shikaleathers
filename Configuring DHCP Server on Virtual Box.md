@@ -75,7 +75,7 @@ OK now all we need to do is check if our VM's can talk to each other and that th
 
 And EVERYTHING WORKS! The Windows machine was assigned the IP `192.168.3.3`  while the Kali VM was assigned  `192.168.3.2` which is PERFECT. When I go to ping between the two machines the Windows VM was able to ping Kali no problems. But when I pinged Kali to Windows VM's there were slight hiccups. This was due to the fact that Windows has a firewall that blocks inbound ICMP packets. Simply adjusting the firewall inbound rules allowed Kali to ping perfectly to the Windows VM.
 
-And there you have it! This is how I configured a DHCP server in Virtual Box.
+And there you have it! This is how I configured a DHCP server in Virtual Box..
 
 
 
