@@ -73,7 +73,7 @@ Now we can attempt to access Splunk interface by grabbing our CenTOS IP and our 
 
 I'm lacking pictures  but I'll find time to add some in the near future..
 
--J
+-Jess
 
 
 
