@@ -8,10 +8,9 @@ What you need to download:
  - [Windows 10.iso](https://www.microsoft.com/en-gb/software-download/windows10) 
  - [Virtual Box](https://www.virtualbox.org/wiki/Downloads)
 
-What we are building
+What we are building: 
 
-Pic 0
-
+![](images/Active%20Directory%20Layoff.png)
 ## Creating the Domain Controller
 
 First what we need to do is boot up an instance of Virtualbox and the set up our first VM to host our domain controller. 
@@ -20,21 +19,23 @@ When we create our VM what we are going to focus on is making sure that the VM i
 Once that is done we are going to make sure that there are two different network adaptors.
 
 The first one is the NIC that connects to our home internet. It will be configured with NAT. The second one we are to add our internal network and we are going to call that "Internal" 
-<pic> 
+
+![](images/1.PNG) 
+
 Next we are going to start the VM and choose the Server 2019 iso that we downloaded earlier. Follow the entire process installing the default settings. Once you get to the operating system installation we can make our lives easier by installing **Windows Server 2019 Standard Evaluation (Desktop Experience)** so we have a GUI that we can use. If you pick the other ones we are only left with the Command Line which isn't nice to look at. 
-<pic 2>
+![](images/2.PNG) 
 
 Once that is done and started up we are going to allow the system to boot and you can create your administer account and password. 
 
 ## Setting Server Network Adapters
 
 So now that we are up and running it's time to configure our IP networking. We are going to click got to **Network Connections** on our server and we should see two adapters. Now remember we had set up one NAT adapter and the other one is internal. 
- <pic 3>
+![](images/3.PNG) 
 The easiest way to determine which is which is that you can click on each adapter and look at the packages sent and packets received. Once we determine which is which we need to rename those adapters in order to make it easier for us or anyone else who is following in our steps. 
-<pic 4>
+![](images/4.PNG) 
 Next we can right click our Internal adapter and go to **IPV4** head into **properties** and configure the IP address. Getting into IP will take forever to explain if you're new so please just trust me on this. We aren't going to use a default gateway because the Domain controller will serve as our default gate way as well as the DNS server. We will also make sure that since the server is its own DNS we will use the preferred DNS to loop back on itself using `127.0.0.1`
 
-<pic 5>  
+![](images/5.PNG) 
 
 ## Setting the Domain Controller's Name
 
@@ -47,7 +48,7 @@ We will be sent back to the Server Manager at this point and in the notification
 
 Next we can add new forest and name our domain whatever is appropriate... 
 
-pic 6
+![](images/6.PNG) 
 
 After in putting the password we can just skip everything and just install. Our computer will automatically restart and we can sign in again into our domain. 
 
@@ -63,21 +64,21 @@ At this point we should be able to right click our **DC (local)**  and then clic
 
 We are going to add the DHCP using add roles and feature on the Server Manager and just click DHCP when are prompted. Once installed we can go to tools on the main page and select DHCP.
 
-pic 7
+![](images/7.PNG) 
 
 We are going to be in our DHCP control panel and then right click IPv4 and view our scope. We can name our scope with whatever we want and then we can define the ranges. 
 
-pic 8
+![](images/8.PNG) 
 
 Once done we can move forward. If you want to have exclusions you can do that too but we don't need that at this point. 
 We also have the lease duration but that depends on your use-case. If you're in a cafe you can make the lease 2 hours or if you're in the office you can have it be on the order of days. 
 
 Now we need to create our router by configuring the DHCP options so we can add a default gateway and add it to our list. 
-pic 9
+![](images/9.PNG) 
 
 SOOOO once this is all done we can next through everything and activate the scope and authorize the server.
 
-pic 10
+![](images/10.PNG) 
 
 Now that we have a working Active Directory we can now start populating our server with some usernames and passwords.
 
@@ -92,7 +93,7 @@ I hope yall know Powershell hahaha
 So at this point we now need to make the VM client to feed into the Domain Controller. We are going to install Windows 10. First we need to set the Network adapters and make sure its pointing towards our internal network adapter so it will connect to our domain controller with ease.
 During the installing make sure not to install home because it wont connect to our directory, but install Windows 10 Pro instead.
 
-Pic 11
+![](images/11.PNG) 
 
 Skip as much as you can and get that client running with limited setup!
 
@@ -104,7 +105,7 @@ We are nearing the end, trust me...
 
 We now need to go into our system settings and go to **rename this PC (Advanced)**  and then click **Change**
 
-Pic 12
+![](images/12.PNG) 
 
 Now we add on arbitrary name and connect to our the domain that we created earlier and then click OK!!!!
 
