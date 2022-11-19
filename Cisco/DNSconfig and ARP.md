@@ -18,7 +18,8 @@ and then we use `ip name-server 10.10.10.10` to specify where the DNS server is.
 
 And that's it! We just need to `end` and that would allow our router to connect directly to our DNS server on a Cisco product.
 
---
+##
+
 The next step is to run the `ping` command from R1 to R2 to R3 to see if the routers con communicate together.
 
 We can now run `show arp` command from each of the routers to see what ARP cache are generated which are located on all hosts that are directly connected networks.
