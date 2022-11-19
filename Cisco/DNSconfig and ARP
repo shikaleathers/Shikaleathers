@@ -3,7 +3,7 @@
 Today we will be configuring routers R1, R2 and R3 to a DNS located at 10.10.10.10. The domain-name and domain-list has already been configured for us before.
 The diagram we will be following is this:
 
-[image info](./images/Packet.PNG)
+![image info](./images/Packet.PNG)
 
 To begin the method we will be following to configure the routers at this point is very straight forward and is as follows.
 
