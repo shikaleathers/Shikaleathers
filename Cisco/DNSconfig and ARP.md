@@ -8,9 +8,13 @@ The diagram we will be following is this:
 To begin the method we will be following to configure the routers at this point is very straight forward and is as follows.
 
 In the CLI we first need to enable our router via `Enable`
+
 Enter to configuration terminal via `Config T`  or `Config Terminal`
+
 Use `ip domain-lookup`  to specify that the router is going to use a DNS server.
+
 and then we use `ip name-server 10.10.10.10` to specify where the DNS server is.
+
 
 And that's it! We just need to `end` and that would allow our router to connect directly to our DNS server on a Cisco product.
 
