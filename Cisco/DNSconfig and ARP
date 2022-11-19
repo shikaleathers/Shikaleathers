@@ -24,3 +24,5 @@ In R2 we can see its directly connected to R1, R3, and the DNS Server.
 
 In R3 we only have one direct connection to R2.
 
+And that's it!
+
